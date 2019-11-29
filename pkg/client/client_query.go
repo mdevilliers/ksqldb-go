@@ -27,9 +27,9 @@ func (c *client) Query(q QueryRequest, out chan QueryResponse) error {
 	resp, err := c.doPost("/query", q)
 
 	if err != nil {
-		// TODO : handle errors?
 		return err
 	}
+
 	defer resp.Body.Close()
 
 	reader := bufio.NewReader(resp.Body)

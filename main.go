@@ -37,23 +37,31 @@ func main() {
 	}
 
 	fmt.Println(healthCheck, err)
-	i
-	/*
 
-		err = client.Statement(`CREATE STREAM pageviews_original (viewtime bigint, userid varchar, pageid varchar) WITH
-		   (kafka_topic='pageviews', value_format='DELIMITED');`, nil)
+	result, err := client.Command(ksqldb.Statement{
+		KSQL: `CREATE STREAM pageviews_original (viewtime bigint, userid varchar, pageid varchar) WITH (kafka_topic='pageviews', value_format='DELIMITED');`})
 
-		if err != nil {
+	if err != nil {
+		if !ksqldb.IsClientError(err) {
 			panic(err)
 		}
+		//		err2, ok := err.(*ksqldb.StatementError)
+		//		fmt.Println(err2.StatementText, ok)
+	}
+	fmt.Println(result, err)
 
-		err = client.Statement(`CREATE TABLE users_original (registertime BIGINT, gender VARCHAR, regionid VARCHAR, userid VARCHAR) WITH
-		   (kafka_topic='users', value_format='JSON', key = 'userid');`, nil)
+	result, err = client.Command(ksqldb.Statement{
+		KSQL: `CREATE TABLE users_original (registertime BIGINT, gender VARCHAR, regionid VARCHAR, userid VARCHAR) WITH
+		   (kafka_topic='users', value_format='JSON', key = 'userid');`})
 
-		if err != nil {
+	if err != nil {
+		if !ksqldb.IsClientError(err) {
 			panic(err)
 		}
-	*/
+		//		err2, ok := err.(*ksqldb.StatementError)
+		//		fmt.Println(err2.StatementText, ok)
+	}
+
 	topics, err := client.ListTopics()
 
 	if err != nil {
@@ -105,23 +113,28 @@ func main() {
 
 		}
 	}()
-	/*
-		err = client.Statement(`CREATE STREAM pageviews_enriched AS
+
+	result, err = client.Command(ksqldb.Statement{
+		KSQL: `CREATE STREAM pageviews_enriched AS
 		       SELECT users_original.userid AS userid, pageid, regionid, gender
 		       FROM pageviews_original
 		       LEFT JOIN users_original
-		       ON pageviews_original.userid = users_original.userid ;`,
-			nil)
+		       ON pageviews_original.userid = users_original.userid ;`})
 
-		if err != nil {
+	if err != nil {
+		if !ksqldb.IsClientError(err) {
 			panic(err)
 		}
-	*/
-	//	err = client.Select(`SELECT pageid FROM pageviews_original LIMIT 3;`, nil, out)
+		//		err2, ok := err.(*ksqldb.StatementError)
+		//		fmt.Println(err2.StatementText, ok)
+	}
 
-	//	if err != nil {
-	//		panic(err)
-	//	}
+	err = client.Query(ksqldb.QueryRequest{KSQL: `SELECT pageid FROM pageviews_original LIMIT 3;`}, out)
+
+	if err != nil {
+		panic(err)
+	}
+
 	err = client.Query(ksqldb.QueryRequest{KSQL: `SELECT * FROM pageviews_enriched;`}, out)
 	//map[string]string{	"ksql.streams.auto.offset.reset": "earliest",}
 	if err != nil {

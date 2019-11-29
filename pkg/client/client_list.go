@@ -66,7 +66,7 @@ type Table struct {
 func (c *client) ListStreams() (Streams, error) {
 
 	r := []Streams{}
-	err := c.Statement(StatementQuery{KSQL: "LIST STREAMS;"}, &r)
+	err := c.Statement(Statement{KSQL: "LIST STREAMS;"}, &r)
 	if err != nil {
 		return Streams{}, err
 	}
@@ -80,7 +80,7 @@ func (c *client) ListStreams() (Streams, error) {
 func (c *client) ListTables() (Tables, error) {
 
 	r := []Tables{}
-	err := c.Statement(StatementQuery{KSQL: "LIST TABLES;"}, &r)
+	err := c.Statement(Statement{KSQL: "LIST TABLES;"}, &r)
 	if err != nil {
 		return Tables{}, err
 	}
@@ -93,7 +93,7 @@ func (c *client) ListTables() (Tables, error) {
 func (c *client) ListTopics() (Topics, error) {
 
 	r := []Topics{}
-	err := c.Statement(StatementQuery{KSQL: "LIST TOPICS;"}, &r)
+	err := c.Statement(Statement{KSQL: "LIST TOPICS;"}, &r)
 	if err != nil {
 		return Topics{}, err
 	}
@@ -107,7 +107,7 @@ func (c *client) ListTopics() (Topics, error) {
 func (c *client) ListQueries() (Queries, error) {
 
 	r := []Queries{}
-	err := c.Statement(StatementQuery{KSQL: "LIST QUERIES;"}, &r)
+	err := c.Statement(Statement{KSQL: "LIST QUERIES;"}, &r)
 	if err != nil {
 		return Queries{}, err
 	}
@@ -121,7 +121,7 @@ func (c *client) ListQueries() (Queries, error) {
 func (c *client) ListProperties() (Properties, error) {
 
 	r := []Properties{}
-	err := c.Statement(StatementQuery{KSQL: "LIST PROPERTIES;"}, &r)
+	err := c.Statement(Statement{KSQL: "LIST PROPERTIES;"}, &r)
 	if err != nil {
 		return Properties{}, err
 	}
