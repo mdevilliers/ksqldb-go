@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -55,45 +54,6 @@ func New(address string, options ...Option) (*client, error) {
 	}
 
 	return c, nil
-}
-
-type StatementQuery struct {
-	KSQL                  string            `json:"ksql"`
-	Properties            map[string]string `json:"streamsProperties,omitempty"`
-	CommandSequenceNumber uint64            `json:"commandSequenceNumber,omitempty"`
-}
-
-func (c *client) Statement(s StatementQuery, out interface{}) error {
-
-	resp, err := c.doPost("/ksql", s)
-
-	if err != nil {
-		return err
-	}
-
-	defer resp.Body.Close()
-
-	r := bufio.NewReader(resp.Body)
-
-	bytes, err := ioutil.ReadAll(r)
-
-	if err != nil {
-		return err
-	}
-
-	if resp.StatusCode > http.StatusAccepted {
-		e := &Error{}
-		err = json.Unmarshal(bytes, e)
-
-		if err != nil {
-			return errors.Wrap(err, "error unmarshalling error ")
-		}
-
-		return e
-	}
-
-	fmt.Println(string(bytes))
-	return json.Unmarshal(bytes, out)
 }
 
 func (c *client) doGet(uri string, out interface{}) error {
