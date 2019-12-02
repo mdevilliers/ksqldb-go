@@ -6,9 +6,31 @@ import (
 	ksqldb "github.com/mdevilliers/ksqldb-go/pkg/client"
 )
 
-func main() {
+var (
+	url = "http://0.0.0.0:8088"
+)
 
-	url := "http://0.0.0.0:8088"
+func main() {
+	client, err := ksqldb.New(url)
+
+	if err != nil {
+		panic(err)
+	}
+	result, err := client.Command(ksqldb.Statement{
+		KSQL: `CREATE STREAM pageviews_home4 AS SELECT * FROM pageviews_original WHERE pageid='home'; CREATE STREAM pageviews_alice4 AS SELECT * FROM pageviews_original WHERE userid='alice';`})
+
+	if err != nil {
+		if !ksqldb.IsClientError(err) {
+			panic(err)
+		}
+		//		err2, ok := err.(*ksqldb.StatementError)
+		//		fmt.Println(err2.StatementText, ok)
+	}
+	fmt.Println(result, err)
+
+}
+
+func tutorial() {
 
 	client, err := ksqldb.New(url)
 
