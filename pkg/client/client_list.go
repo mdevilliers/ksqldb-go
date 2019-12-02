@@ -63,7 +63,7 @@ type Table struct {
 	IsWindowed bool   `json:"isWindowed"`
 }
 
-func (c *client) ListStreams() (Streams, error) {
+func (c *Client) ListStreams() (Streams, error) {
 
 	r := []Streams{}
 	err := c.Statement(Statement{KSQL: "LIST STREAMS;"}, &r)
@@ -77,7 +77,7 @@ func (c *client) ListStreams() (Streams, error) {
 	return r[0], err
 }
 
-func (c *client) ListTables() (Tables, error) {
+func (c *Client) ListTables() (Tables, error) {
 
 	r := []Tables{}
 	err := c.Statement(Statement{KSQL: "LIST TABLES;"}, &r)
@@ -90,7 +90,7 @@ func (c *client) ListTables() (Tables, error) {
 
 	return r[0], err
 }
-func (c *client) ListTopics() (Topics, error) {
+func (c *Client) ListTopics() (Topics, error) {
 
 	r := []Topics{}
 	err := c.Statement(Statement{KSQL: "LIST TOPICS;"}, &r)
@@ -104,7 +104,7 @@ func (c *client) ListTopics() (Topics, error) {
 	return r[0], err
 }
 
-func (c *client) ListQueries() (Queries, error) {
+func (c *Client) ListQueries() (Queries, error) {
 
 	r := []Queries{}
 	err := c.Statement(Statement{KSQL: "LIST QUERIES;"}, &r)
@@ -118,7 +118,7 @@ func (c *client) ListQueries() (Queries, error) {
 	return r[0], err
 }
 
-func (c *client) ListProperties() (Properties, error) {
+func (c *Client) ListProperties() (Properties, error) {
 
 	r := []Properties{}
 	err := c.Statement(Statement{KSQL: "LIST PROPERTIES;"}, &r)

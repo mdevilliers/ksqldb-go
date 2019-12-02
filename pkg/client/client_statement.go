@@ -29,14 +29,13 @@ type CommandStatus struct {
 	Message string `json:"message"`
 }
 
-func (c *client) Command(s Statement) ([]CommandResponse, error) {
-
+func (c *Client) Command(s Statement) ([]CommandResponse, error) {
 	r := []CommandResponse{}
 	err := c.Statement(s, &r)
 	return r, err
 }
 
-func (c *client) Statement(s Statement, out interface{}) error {
+func (c *Client) Statement(s Statement, out interface{}) error {
 
 	resp, err := c.doPost("/ksql", s)
 

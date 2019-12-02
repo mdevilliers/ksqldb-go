@@ -1,6 +1,6 @@
 package client
 
-func (c *client) ServerHealthCheck() (HealthCheck, error) {
+func (c *Client) ServerHealthCheck() (HealthCheck, error) {
 
 	r := HealthCheck{Details: map[string]HealthCheckDetail{}}
 	err := c.doGet("/healthcheck", &r)

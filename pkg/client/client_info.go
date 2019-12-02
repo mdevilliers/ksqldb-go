@@ -1,6 +1,6 @@
 package client
 
-func (c *client) ServerInfo() (ServerInfo, error) {
+func (c *Client) ServerInfo() (ServerInfo, error) {
 
 	r := serverInfoResponse{}
 	err := c.doGet("/info", &r)

@@ -15,25 +15,25 @@ import (
 
 const ContentType = "application/vnd.ksql.v1+json; charset=utf-8"
 
-type client struct {
+type Client struct {
 	Address    string
 	httpClient *http.Client
 	// url is the parsed URL from Address
 	url *url.URL
 }
 
-type Option func(c *client) error
+type Option func(c *Client) error
 
 func WithHTTPClient(httpClient *http.Client) Option {
-	return func(c *client) error {
+	return func(c *Client) error {
 		c.httpClient = httpClient
 		return nil
 	}
 }
 
-func New(address string, options ...Option) (*client, error) {
+func New(address string, options ...Option) (*Client, error) {
 
-	c := &client{
+	c := &Client{
 		Address: address,
 	}
 
@@ -56,7 +56,7 @@ func New(address string, options ...Option) (*client, error) {
 	return c, nil
 }
 
-func (c *client) doGet(uri string, out interface{}) error {
+func (c *Client) doGet(uri string, out interface{}) error {
 
 	u := strings.TrimRight(c.url.String(), "/") + "/" + strings.TrimLeft(uri, "/")
 
@@ -92,7 +92,7 @@ func (c *client) doGet(uri string, out interface{}) error {
 	return json.Unmarshal(bytes, out)
 }
 
-func (c *client) doPost(uri string, b interface{}) (*http.Response, error) {
+func (c *Client) doPost(uri string, b interface{}) (*http.Response, error) {
 
 	content, err := json.Marshal(b)
 

@@ -22,7 +22,7 @@ type Row struct {
 	Columns []interface{} `json:"columns"`
 }
 
-func (c *client) Query(q QueryRequest, out chan QueryResponse) error {
+func (c *Client) Query(q QueryRequest, out chan QueryResponse) error {
 
 	resp, err := c.doPost("/query", q)
 
