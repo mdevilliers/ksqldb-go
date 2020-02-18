@@ -119,11 +119,37 @@ func (cs *create) WithProperties(p map[Property]interface{}) *create {
 	return cs
 }
 
-type selector struct{}
+type selector struct {
+	from string
+}
 
 func (cs *create) AsSelect() *selector {
 	cs.selector = &selector{}
 	return cs.selector
+}
+
+func (s *selector) From(from string) *selector {
+	s.from = from
+	return s
+}
+
+// e.g LeftJoin( "xx", "xx.foo = zz.bar" )
+func (s *selector) LeftJoin(from, criteria string) *selector {
+	return s
+}
+func (s *selector) FullJoin(from, criteria string) *selector {
+	return s
+}
+func (s *selector) InnerJoin(from, criteria string) *selector {
+	return s
+}
+
+func (s *selector) Where(condition string) *selector {
+	return s
+}
+
+func (s *selector) Colummns() *selector {
+	return s
 }
 
 type value struct {
