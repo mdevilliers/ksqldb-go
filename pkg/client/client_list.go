@@ -42,11 +42,17 @@ type Stream struct {
 }
 
 type Properties struct {
-	StatementText         string            `json:"statementText"`
-	Warnings              []string          `json:"warnings"`
-	Properties            map[string]string `json:"properties"`
-	OverwrittenProperties []string          `json:"overwrittenProperties"`
-	DefaultProperties     []string          `json:"defaultProperties"`
+	StatementText         string     `json:"statementText"`
+	Warnings              []string   `json:"warnings"`
+	Properties            []Property `json:"properties"`
+	OverwrittenProperties []string   `json:"overwrittenProperties"`
+	DefaultProperties     []string   `json:"defaultProperties"`
+}
+
+type Property struct {
+	Name  string `json:"name"`
+	Scope string `json:"scope"`
+	Value string `json:"value"`
 }
 
 type Tables struct {
